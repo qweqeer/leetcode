@@ -19,6 +19,11 @@ public class MaxSubArray {
         System.out.println(obj.solution(nums));
     }
 
+    /**
+     * 动态规划
+     * @param nums
+     * @return
+     */
     public int solution(int[] nums){
         int sum = 0;
         int cache = nums[0];
@@ -32,5 +37,7 @@ public class MaxSubArray {
         }
         return cache;
     }
+
+
 
 }
