@@ -32,10 +32,11 @@ public class ReverseKGroupSolution {
             //将第K+1个节点置为空，此时start节点的长度为K
             end.next = null;
 
-            //
+            //当前pre为组的前置节点
             pre.next = reverse(start);
-
+            //链接未遍历的组
             start.next = next;
+            //
             pre = start;
 
             end = pre;
