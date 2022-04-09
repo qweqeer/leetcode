@@ -61,7 +61,7 @@
 // 👍 193 👎 0
 
 package leetcode.editor.cn;
-import leetcode.editor.cn.uf.PointAndPoint;
+import leetcode.editor.cn.uf.PointRelation;
 import leetcode.editor.cn.uf.UnionFind;
 
 import java.util.Comparator;
@@ -71,22 +71,22 @@ import java.util.List;
 //leetcode submit region begin(Prohibit modification and deletion)
 class MinCostToConnectAllPointsSolution {
     public int minCostConnectPoints(int[][] points) {
-        List<PointAndPoint> nodeWeight = new LinkedList<>();
+        List<PointRelation> nodeWeight = new LinkedList<>();
 
         for(int i=0;i<points.length;i++){
             for(int j=i+1;j<points.length;j++){
                 int weight = Math.abs(points[i][0]-points[j][0])+Math.abs(points[i][1]-points[j][1]);
-                nodeWeight.add(new PointAndPoint(i,j,weight));
+                nodeWeight.add(new PointRelation(i,j,weight));
             }
         }
-        nodeWeight.sort(Comparator.comparing(PointAndPoint::getWeight));
+        nodeWeight.sort(Comparator.comparing(PointRelation::getWeight));
         UnionFind uf = new UnionFind(points.length);
         int sumWeight = 0;
-        for(PointAndPoint conn: nodeWeight){
-            if(uf.connected(conn.pointIdA,conn.pointIdB)){
+        for(PointRelation conn: nodeWeight){
+            if(uf.connected(conn.from,conn.to)){
                 continue;
             }
-            uf.union(conn.pointIdA,conn.pointIdB);
+            uf.union(conn.from,conn.to);
             sumWeight+= conn.getWeight();
         }
         return uf.getCount()==1?sumWeight:0;
