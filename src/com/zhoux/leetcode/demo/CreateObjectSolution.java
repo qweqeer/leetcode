@@ -88,9 +88,7 @@ public class CreateObjectSolution {
 
 }
 
-class Invoker implements MethodHandleInfo{
 
-}
 
 class StringJavaObject extends SimpleJavaFileObject {
     //源代码

@@ -81,5 +81,8 @@ public class LruCache<K, V> {
         lruCache.get("1");
         lruCache.put("4,",4);
         System.out.println("done");
+
+        HashMap map = new HashMap();
+
     }
 }
