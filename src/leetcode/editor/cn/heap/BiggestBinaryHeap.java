@@ -63,4 +63,14 @@ public class BiggestBinaryHeap<Key extends Comparable<Key>> extends BinaryStack<
             k = oldIndex;
         }
     }
+
+    public static void main(String[] args) {
+        BiggestBinaryHeap<Integer> heap = new BiggestBinaryHeap<>(100);
+        heap.insert(1);
+        heap.insert(2);
+        heap.insert(3);
+        heap.insert(4);
+        heap.delMax();
+        System.out.println("done");
+    }
 }
