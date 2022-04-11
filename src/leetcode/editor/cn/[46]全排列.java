@@ -53,14 +53,16 @@ class PermutationsSolution {
     private void traverse(int[] nums,List<Integer> temp,boolean[] used){
         if(temp.size() ==nums.length){
             ans.add(temp);
+            return;
         }
         for(int i=0;i<nums.length;i++){
             if(used[i]){
                 continue;
             }
-            temp.add(nums[i]);
+            ArrayList<Integer> newList = new ArrayList<>(temp);
+            newList.add(nums[i]);
             used[i] = true;
-            traverse(nums,new ArrayList<>(temp),used);
+            traverse(nums,newList,used);
             used[i] = false;
         }
     }
