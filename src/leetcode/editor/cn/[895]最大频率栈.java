@@ -52,58 +52,66 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Objects;
 import java.util.PriorityQueue;
+import java.util.Stack;
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class FreqStack {
+    /**
+     * 需要保证时间的先后顺序
+     * 1、所有元素的频率都是有小到大，由于从最高频率开始出栈，只需要保证同一频率元素时间顺序即可
+     */
 
-    HashMap<Integer,LinkedList<Integer>> freqMap;
+    HashMap<Integer, Stack<Integer>> freqMap;
 
     HashMap<Integer,Integer> valueFreq;
 
-    PriorityQueue<Integer> queue;
+    int maxFreq = 0;
     public FreqStack() {
-        queue = new PriorityQueue<>((a,b)->b-a);
+        maxFreq = 0;
         freqMap = new HashMap<>();
         valueFreq = new HashMap<>();
     }
     
     public void push(int val) {
-        int oldFreq = valueFreq.getOrDefault(val,0);
-        LinkedList<Integer> oldFreqList = freqMap.getOrDefault(oldFreq,new LinkedList<>());
-        if(!oldFreqList.isEmpty()){
-            oldFreqList.remove((Integer)val);
-            if(oldFreqList.isEmpty()){
-                freqMap.remove((Integer)oldFreq);
-            }else {
-                freqMap.put(oldFreq,oldFreqList);
-            }
-        }
-        int newFreq = oldFreq+1;
-        valueFreq.put(val,newFreq);
-        LinkedList<Integer> newFreqList = freqMap.getOrDefault(newFreq,new LinkedList<>());
-        newFreqList.addFirst(val);
-        freqMap.put(newFreq,newFreqList);
-        queue.offer(newFreq);
+
+        int freq = valueFreq.getOrDefault(val, 0) + 1;
+        freqMap.putIfAbsent(freq,new Stack<>());
+        freqMap.get(freq).push(val);
+        valueFreq.put(val,freq);
+        maxFreq = Math.max(maxFreq,freq);
     }
     
     public int pop() {
-       Integer  freq=queue.peek();
-       while (!freqMap.containsKey(freq)){
-           queue.poll();
-           freq = queue.peek();
+        Stack<Integer> freqStack=freqMap.get(maxFreq);
+       int val=freqStack.pop();
+       valueFreq.put(val,valueFreq.getOrDefault(val,0)-1);
+       if(freqStack.isEmpty()){
+           maxFreq--;
        }
-       LinkedList<Integer> freqList=freqMap.get(freq);
-       Integer removeValue = freqList.removeFirst();
-       valueFreq.remove(removeValue);
-       if(freqList.isEmpty()){
-           freqMap.remove(freq);
-       }else {
-           freqMap.put(freq,freqList);
-       }
-       return removeValue;
+       return val;
+    }
+
+
+
+    public static void main(String[] args) {
+        /**
+         * ["FreqStack","push","push","push","push","push","push","pop","pop","pop","pop"]
+         * [[],[5],[7],[5],[7],[4],[5],[],[],[],[]]
+         */
+        FreqStack stack = new FreqStack();
+        stack.push(1);
+        stack.push(5);
+        stack.push(7);
+        stack.push(5);
+        stack.push(7);
+        stack.push(4);
+        stack.push(5);
+        System.out.println(stack.pop());
+        System.out.println(stack.pop());
+        System.out.println(stack.pop());
+        System.out.println(stack.pop());
     }
 }
-
 /**
  * Your FreqStack object will be instantiated and called as such:
  * FreqStack obj = new FreqStack();
