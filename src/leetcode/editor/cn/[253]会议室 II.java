@@ -34,10 +34,10 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 
 //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
-    public int minMeetingRooms(int[][] intervals) {
-        //计算同一时刻最大并行的会议
-        //查分数组变种
-    }
-}
+// class Solution {
+//     public int minMeetingRooms(int[][] intervals) {
+//         //计算同一时刻最大并行的会议
+//         //查分数组变种
+//     }
+// }
 //leetcode submit region end(Prohibit modification and deletion)
