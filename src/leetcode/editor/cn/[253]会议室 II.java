@@ -1,4 +1,4 @@
-//给你一个会议时间安排的数组 intervals ，每个会议时间都会包括开始和结束的时间 intervals[i] = [starti, endi] ，返回 
+package leetcode.editor.cn;//给你一个会议时间安排的数组 intervals ，每个会议时间都会包括开始和结束的时间 intervals[i] = [starti, endi] ，返回
 //所需会议室的最小数量 。 
 //
 // 
@@ -34,10 +34,15 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 
 //leetcode submit region begin(Prohibit modification and deletion)
-// class Solution {
-//     public int minMeetingRooms(int[][] intervals) {
-//         //计算同一时刻最大并行的会议
-//         //查分数组变种
-//     }
-// }
+class MinMeetingRoomsSolution {
+    public int minMeetingRooms(int[][] intervals) {
+        //计算同一时刻最大并行的会议
+        //查分数组变种
+        return 0;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(1/2);
+    }
+}
 //leetcode submit region end(Prohibit modification and deletion)

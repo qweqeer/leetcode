@@ -1,0 +1,35 @@
+class Solution {
+    public int minMeetingRooms(int[][] intervals) {
+        //转换为同一时刻最多有多少和会议同时开始
+        //最近两次会议结束前有多少会议开始.开始时间和结束时间不冲突
+        int meetingNum = intervals.length;
+        int[] startMeeting = new int[meetingNum];
+        int[] stopMeeting = new int[meetingNum];
+        for(int i=0;i<meetingNum;i++){
+            startMeeting[i] = intervals[i][0];
+            stopMeeting[i] = intervals[i][1];
+        }
+        Arrays.sort(startMeeting);
+        Arrays.sort(stopMeeting);
+        
+        //需要会议室的数量
+        int roomNum = 0;
+        int start=0,end=0;
+        int maxRoom = 0;
+        while(start < meetingNum){
+            if(startMeeting[start] < stopMeeting[end]){
+                roomNum++;
+                maxRoom = Math.max(maxRoom,roomNum);
+                start++;
+            }else{
+                //结束时间大于开始时间，切换到下一个开始时间
+                roomNum--;
+                end++;
+            }
+            maxRoom = Math.max(maxRoom,roomNum);
+        }
+        return maxRoom;
+    }
+}
+//runtime:4 ms
+//memory:41.4 MB
