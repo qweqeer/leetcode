@@ -1,4 +1,4 @@
-//给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。答案可以按 任意顺序 返回。 
+package leetcode.editor.cn;//给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。答案可以按 任意顺序 返回。
 //
 // 给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母。 
 //
@@ -40,10 +40,9 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Queue;
 
 //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
+class LetterCombinationsSolution {
     HashMap<String,List<String>> cache = new HashMap<>();
     public List<String> letterCombinations(String digits) {
         if(null == digits || digits.length()==0){
