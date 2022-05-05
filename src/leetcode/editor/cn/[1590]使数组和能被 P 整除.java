@@ -57,29 +57,26 @@ import java.util.List;
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class MinSubarraySolution {
+    //TODO 前缀和 totalSum%p == rangSum %p == (preSum[j]-preSum[i])%/p
     public int minSubarray(int[] nums, int p) {
         long sum = Arrays.stream(nums).sum();
         long removeSum = sum % p;
-        if(removeSum<0){
-            return -1;
-        }else if(removeSum==0){
+        if(removeSum==0){
             return 0;
         }
         Arrays.sort(nums);
-        boolean isfind=tarverse(nums,nums.length-1,removeSum,0);
-        return isfind?-1:stack.size();
+        tarverse(nums,nums.length-1,removeSum,0, p);
+
+        return stack.isEmpty()?-1:stack.size();
     }
     LinkedList<Integer> stack = new LinkedList<>();
-    private boolean tarverse(int[] nums,int end,long target,long sum){
-        if(target<-1){
-            return false;
-        }
-        if(target == sum){
+    private boolean tarverse(int[] nums,int end,long target,long sum,int p){
+        if(sum%p ==  target){
             return true;
         }
         for(int i=end;i>=0;i--){
             stack.addFirst(nums[i]);
-            boolean isFind=tarverse(nums,end-1,target,sum+nums[i]);
+            boolean isFind=tarverse(nums,i-1,target,sum+nums[i],p);
             if(isFind){
                 return true;
             }
@@ -91,7 +88,7 @@ class MinSubarraySolution {
     public static void main(String[] args) {
         MinSubarraySolution solution = new MinSubarraySolution();
         int[]  nums = {6,3,5,2};
-        System.out.println(solution.minSubarray(nums,17));
+        System.out.println(solution.minSubarray(nums,6));
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

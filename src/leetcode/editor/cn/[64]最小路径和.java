@@ -35,29 +35,40 @@ import java.util.Arrays;
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class MinPathSumSolution {
-    int[][] pathSum;
+    /**
+     * 需要注意数组和二维图对应关系
+     * 左上角为坐标(0,0),右下角为(m,n)
+     */
+    int[][] memo;
     public int minPathSum(int[][] grid) {
-        int m = grid.length,n=grid[0].length;
-        pathSum = new int[m][n];
-        for(int[] row:pathSum){
+        int m = grid.length;
+        int n=grid[0].length;
+        memo = new int[m][n];
+        //初始化默认值
+        for(int[] row:memo){
             Arrays.fill(row,-1);
         }
-        //终点固定
-        pathSum[0][n-1]=grid[0][n-1];
-        return dp(grid,0,m-1);
+        // base case
+        memo[m-1][n-1] = grid[m-1][n-1];
+        //最右侧只能向下
+        for(int i= m-2;i>=0;i--){
+            memo[i][n-1] = grid[i][n-1]+ memo[i+1][n-1];
+        }
+        //最下方只能向右
+        for(int j=n-2;j>=0;j--){
+            memo[m-1][j] = grid[m-1][j]+ memo[m-1][j+1];
+        }
+        dp(grid,0,0);
+        return memo[0][0];
     }
 
-    private int dp(int[][] grid,int x,int y){
-        if(x>=grid[0].length || y <0){
-            return Integer.MAX_VALUE;
+    private int dp(int[][] grid,int m,int n){
+        if(memo[m][n]!=-1){
+            return memo[m][n];
         }
-        if(pathSum[x][y]>=0){
-            return pathSum[x][y];
-        }
-        System.out.print("  ");
-        pathSum[x][y] = grid[x][y]+Math.min(dp(grid,x,y-1),dp(grid,x+1,y));
-        System.out.println("x="+x+";y="+y+";pathSum="+pathSum[x][y]);
-        return pathSum[x][y];
+        memo[m][n]=Math.min(dp(grid,m,n+1),dp(grid,m+1,n))+grid[m][n];
+        System.out.println(String.format("m=%d;n=%d;sum=%d",m,n,memo[m][n]));
+        return memo[m][n];
     }
 
     public static void main(String[] args) {
