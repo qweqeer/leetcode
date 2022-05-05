@@ -1,0 +1,25 @@
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        if(nums.length==0){
+            return 0;
+        }
+        Arrays.sort(nums);
+        int value = nums[0],res = 1;
+        int temp = 1;
+        for(int i=1;i<nums.length;i++){
+            //防止大于Integer.MAX_VALUE
+            if(value== nums[i]-1){
+                temp++;
+                res = Math.max(temp,res);
+            }else if(nums[i] == value){
+                continue;
+            }else {
+                temp=1;
+            }
+            value = nums[i];
+        }
+        return res;
+    }
+}
+//runtime:11 ms
+//memory:47.3 MB
