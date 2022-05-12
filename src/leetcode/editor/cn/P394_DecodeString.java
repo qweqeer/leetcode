@@ -49,17 +49,23 @@
 // Related Topics 栈 递归 字符串 👍 1140 👎 0
 
 package leetcode.editor.cn;
-public class P394_DecodeString{
-    public static void main(String[] args) {
-	 	 //测试代码
-	 	 Solution solution = new P394_DecodeString().new Solution();
-    }
-	 //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
-    public String decodeString(String s) {
 
+import java.util.Stack;
+import java.util.concurrent.LinkedBlockingQueue;
+
+public class P394_DecodeString {
+    public static void main(String[] args) {
+        //测试代码
+        Solution solution = new P394_DecodeString().new Solution();
     }
-}
-//leetcode submit region end(Prohibit modification and deletion)
+
+    //leetcode submit region begin(Prohibit modification and deletion)
+    class Solution {
+        public String decodeString(String s) {
+
+            return "";
+        }
+    }
+    //leetcode submit region end(Prohibit modification and deletion)
 
 }
