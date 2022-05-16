@@ -1,0 +1,55 @@
+### 解题思路
+
+听说这题是通过率最低的top50!
+
+这个题主要难点在有负数，所以感觉滑动窗口不太行（因为不存在一个单调递增的和）
+
+首先区域和，可以考虑前缀和简化（假设叫sum[]）
+
+然后就是高能的双端队列
+我们知道有两个优化，在遍历数组的过程中（也就是说x1<x2）:
+1.sum[x2]<=sum[x1]的时候，也就是说x1和x2之间的值的和是负数或者是0,这个时候如果让xn-x1(或x2)的话，肯定就会选择x2而不是x1,这个时候x1其实就可以出队列了
+
+2.考虑如果已经找到了一个数x2,满足了sum[x2]-sum[x1]>k了，那这个时候其实x1就不用保留了，因为x1固定住，x2你在往后遍历，也不会比x2更靠近x1，这个时候就需要把x2-x1记录下来就好了
+
+这个双端队列，里面的值是数组的下标，这肯定是递增的啊（毕竟我们是从0往后跑），但是他的和可不一定是单调递增的。
+
+所以一开始遍历到i，可以通过1原则把队尾的值丢一丢
+
+然后开始看看队头，如果差>=k了，也更新ans后丢掉就可了
+
+### 代码
+
+* cpp
+
+```cpp
+class Solution {
+public:
+    int shortestSubarray(vector<int>& nums, int k) {
+        int n=nums.size();
+        deque<int> myque;
+        vector<long long> sum(n+1);
+        sum[0]=0;
+        for(int i=1;i<=n;i++){
+            sum[i]=sum[i-1]+nums[i-1];
+        }
+
+        int ans=INT_MAX;
+        for(int i=0;i<sum.size();i++){
+            while(!myque.empty() && sum[myque.back()]>=sum[i]){
+                myque.pop_back();
+            }
+
+            while(!myque.empty() && sum[i]-sum[myque.front()]>=k){
+                ans=min(ans,i-myque.front());
+                myque.pop_front();
+            }
+            myque.push_back(i);
+        }
+
+        return ans==INT_MAX?-1:ans;
+    }
+};
+
+```
+

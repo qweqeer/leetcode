@@ -42,26 +42,42 @@
 
 package leetcode.editor.cn;
 
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.concurrent.DelayQueue;
+
 public class P862_ShortestSubarrayWithSumAtLeastK {
     public static void main(String[] args) {
         //测试代码
         Solution solution = new P862_ShortestSubarrayWithSumAtLeastK().new Solution();
-        System.out.println(solution.shortestSubarray(new int[] {-34,37,51,3,-12,-50,51,100,-47,99,34,14,-13,89,31,-14,-44,23,-38,6 }, 151));
+        int[] case1 = new int[] { -34, 37, 51, 3, -12, -50, 51, 100, -47, 99, 34, 14, -13, 89, 31, -14, -44, 23, -38, 6 };
+        int k1 = 151;
+        System.out.println(solution.shortestSubarray(case1, k1)==2);
+        int[] case2 = new int[] { 84, -37, 32, 40, 95 };
+        int k2 = 165;
+        System.out.println(solution.shortestSubarray(case2, k2) == 3);
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public int shortestSubarray(int[] nums, int k) {
+            int[] preSum = new int[nums.length + 1];
+            preSum[0] = 0;
+            for (int i = 1; i < preSum.length; i++) {
+                preSum[i] = preSum[i - 1] + nums[i - 1];
+            }
+
             int ans = Integer.MAX_VALUE;
-            int slow = 0, fast = 0;
-            int sum = 0;
-            while (fast < nums.length) {
-                sum += nums[fast++];
-                while (slow<fast && fast<=nums.length && sum-nums[slow]>=k){
-                    ans = Math.min(fast - slow, ans);
-                    sum-=nums[slow];
-                    slow++;
+            Deque<Integer> queue = new LinkedList<>();
+            for (int y = 0; y < preSum.length; ++y) {
+                // Want opt(y) = largest x with P[x] <= P[y] - K;
+                while (!queue.isEmpty() && preSum[y] <= preSum[queue.getLast()]){
+                    queue.removeLast();
                 }
+                while (!queue.isEmpty() && preSum[y] >= preSum[queue.getFirst()] + k) {
+                    ans = Math.min(ans, y - queue.removeFirst());
+                }
+                queue.addLast(y);
             }
             //TODO 待调试
             return ans == Integer.MAX_VALUE ? -1 : ans;
