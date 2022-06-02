@@ -1,0 +1,40 @@
+将问题归约为：[84. 柱状图中最大的矩形](https://leetcode-cn.com/problems/largest-rectangle-in-histogram/)
+参考大佬 [@windliang](/u/windliang/) 的题解：https://leetcode-cn.com/problems/maximal-rectangle/solution/xiang-xi-tong-su-de-si-lu-fen-xi-duo-jie-fa-by-1-8/
+
+* java
+
+```java
+class Solution {
+    public int maximalRectangle(char[][] matrix) {
+        int[] heights = new int[matrix[0].length];
+        int res = 0;
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                if (matrix[i][j] == '1') {
+                    heights[j] += 1;
+                } else {
+                     heights[j] = 0;
+                }
+            }
+            res = Math.max(res, largestRectangleArea(heights));
+        }
+        return res;
+    }
+
+    int largestRectangleArea(int[] heights){
+        int res = 0;
+        int[] h = new int[heights.length + 2];
+        Deque<Integer> stk = new ArrayDeque<>();
+        System.arraycopy(heights, 0, h, 1, heights.length);
+        for (int i = 0; i < h.length; i++){
+            while (!stk.isEmpty() && h[stk.peek()] > h[i]){
+                int height = h[stk.pop()];
+                res = Math.max(height * (i - stk.peek() - 1), res);
+            }
+            stk.push(i);
+        }
+        return res;
+    }
+}
+```
+

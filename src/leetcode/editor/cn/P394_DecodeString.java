@@ -50,6 +50,8 @@
 
 package leetcode.editor.cn;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -57,13 +59,47 @@ public class P394_DecodeString {
     public static void main(String[] args) {
         //测试代码
         Solution solution = new P394_DecodeString().new Solution();
+        System.out.println(solution.decodeString(""));
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public String decodeString(String s) {
+            //参考计算器
+            LinkedList<Character> queue = new LinkedList<>();
+            for (int i = 0; i < s.length(); i++) {
+                queue.addLast(s.charAt(i));
+            }
+            return parse(queue);
+        }
 
-            return "";
+        private String parse(Queue<Character> queue){
+            if(queue.isEmpty()){
+                return "";
+            }
+            int preNum = 0;
+            StringBuilder subStr = new StringBuilder();
+            while (!queue.isEmpty()){
+                char c = queue.poll();
+                if(Character.isDigit(c)){
+                    preNum = preNum * 10 + (c-'0');
+                }else if(c>='a' && c<='z'){
+                    subStr.append(c);
+                }
+                if(c == '['){
+                    String str = parse(queue);
+                    if(preNum == 0){
+                        preNum = 1;
+                    }
+                    for (int i = 0;i<preNum;i++){
+                        subStr.append(str);
+                    }
+                    preNum = 0;
+                }else if(c== ']'){
+                    return subStr.toString();
+                }
+            }
+            return subStr.toString();
         }
     }
     //leetcode submit region end(Prohibit modification and deletion)
